@@ -11,9 +11,9 @@ export function DiscordSetupGuide() {
   const [copied, setCopied] = useState(false)
   const [callbackUrl, setCallbackUrl] = useState("")
   
-  // Move window access to useEffect to avoid hydration mismatch
+ 
   useEffect(() => {
-    // Use NEXTAUTH_URL from environment if available, otherwise use window.location.origin
+   
     const baseUrl = process.env.NEXTAUTH_URL || window.location.origin
     setCallbackUrl(`${baseUrl}/api/auth/callback/discord`)
   }, [])

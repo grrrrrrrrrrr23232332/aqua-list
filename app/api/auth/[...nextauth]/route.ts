@@ -5,11 +5,9 @@ import { UserRole } from "@/lib/models/user"
 import fs from "fs"
 import path from "path"
 
-// Load config directly
 const configPath = path.join(process.cwd(), "config.json")
 const configData = JSON.parse(fs.readFileSync(configPath, "utf8"))
 
-// Configure NextAuth with Discord OAuth
 export const authOptions = {
   providers: [
     DiscordProvider({
@@ -34,18 +32,15 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile }: any) {
-      // Persist the Discord access token to the token
       if (account) {
         token.accessToken = account.access_token
         token.discordId = profile.id
         
-        // Remove email from token if it exists
         if (token.email) {
           delete token.email
         }
       }
 
-      // Add user roles to token
       if (token.discordId) {
         try {
           const { db } = await connectToDatabase()
@@ -65,12 +60,10 @@ export const authOptions = {
       return token
     },
     async session({ session, token }: any) {
-      // Send properties to the client
       session.accessToken = token.accessToken
       session.user.discordId = token.discordId
       session.user.roles = token.roles || [UserRole.USER]
       
-      // Remove email from session if it exists
       if (session.user.email) {
         delete session.user.email
       }
@@ -81,10 +74,8 @@ export const authOptions = {
       try {
         const { db } = await connectToDatabase()
  
-        // Check if user exists
         const existingUser = await db.collection("users").findOne({ discordId: profile.id })
 
-        // Try to add user to the Discord server
         if (account.access_token && configData.discord.serverId) {
           try {
             const response = await fetch(`https://discord.com/api/v10/guilds/${configData.discord.serverId}/members/${profile.id}`, {
@@ -102,9 +93,7 @@ export const authOptions = {
               const errorData = await response.json().catch(() => ({}));
               console.error(`Error adding user to Discord server: ${response.status}`, errorData);
               
-              // If the user is already in the server, this is fine
               if (response.status !== 204 && response.status !== 201 && response.status !== 403) {
-                // Only log non-success and non-already-member errors
                 console.error(`Failed to add user to Discord server: ${response.status}`);
               }
             } else {
@@ -112,12 +101,10 @@ export const authOptions = {
             }
           } catch (error) {
             console.error("Error adding user to Discord server:", error);
-            // Continue with login even if joining the server fails
           }
         }
 
         if (existingUser) {
-          // Update user information - don't store email
           await db.collection("users").updateOne(
             { discordId: profile.id },
             {
@@ -131,7 +118,6 @@ export const authOptions = {
             },
           )
         } else {
-          // Create new user - don't store email
           await db.collection("users").insertOne({
             discordId: profile.id,
             username: profile.username || user.name,

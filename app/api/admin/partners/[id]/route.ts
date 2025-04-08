@@ -12,7 +12,7 @@ async function isAdminOrFounder(userId: string) {
 
   if (!user) return false
 
-  // Check if user has admin or founder role
+  
   const hasAccess =
     user.roles &&
     (user.roles.includes(UserRole.ADMIN) ||
@@ -40,15 +40,13 @@ export async function PUT(
 
     const data = await request.json()
 
-    // Validate required fields
     if (!data.name || !data.image || !data.description || !data.url) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
       )
     }
-
-    // Validate URL format
+    
     try {
       new URL(data.url)
       new URL(data.image)

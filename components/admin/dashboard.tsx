@@ -12,10 +12,8 @@ export default function AdminDashboard() {
   const { data: session } = useSession()
   const [activeTab, setActiveTab] = useState("pending-bots")
 
-  // Get user roles from session
   const userRoles = session?.user?.roles || []
 
-  // Check if user has specific roles
   const isAdmin = userRoles.includes(UserRole.ADMIN)
   const isFounder = userRoles.includes(UserRole.BOT_FOUNDER)
   const isReviewer = userRoles.includes(UserRole.BOT_REVIEWER)

@@ -12,7 +12,6 @@ export function Confetti({ onComplete }: ConfettiProps) {
   const [particles, setParticles] = useState(200)
 
   useEffect(() => {
-    // Set dimensions to window size
     const handleResize = () => {
       setDimensions({
         width: window.innerWidth,
@@ -20,13 +19,12 @@ export function Confetti({ onComplete }: ConfettiProps) {
       })
     }
 
-    // Initial dimensions
+      
     handleResize()
 
-    // Add event listener
+  
     window.addEventListener("resize", handleResize)
 
-    // Cleanup
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 

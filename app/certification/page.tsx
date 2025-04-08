@@ -13,7 +13,6 @@ export default function CertificationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto max-w-7xl py-12 px-4">
-        {/* Header */}
         <div className="mb-12 text-center">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <Shield className="h-4 w-4 mr-2" />
@@ -27,7 +26,6 @@ export default function CertificationPage() {
           </p>
         </div>
 
-        {/* Add Auto-Verification Notice */}
         <Card className="mb-12 border-border/40 shadow-sm bg-gradient-to-r from-sky-500/5 to-sky-500/20">
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
@@ -55,7 +53,6 @@ export default function CertificationPage() {
           </CardContent>
         </Card>
 
-        {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Card className="border-border/40 shadow-sm">
             <CardHeader>
@@ -100,7 +97,6 @@ export default function CertificationPage() {
           </Card>
         </div>
 
-        {/* Requirements */}
         <Card className="mb-12 border-border/40 shadow-sm">
           <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-b border-border/40">
             <CardTitle className="text-xl flex items-center">
@@ -164,7 +160,6 @@ export default function CertificationPage() {
           </CardContent>
         </Card>
 
-        {/* Update Apply Section */}
         <Card className="border-border/40 shadow-sm overflow-hidden">
           <CardContent className="p-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">

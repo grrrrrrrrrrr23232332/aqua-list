@@ -113,7 +113,6 @@ export default function DashboardPage() {
         })
         
         if (response.ok) {
-          // Remove the bot from the state
           setUserBots(userBots.filter(bot => bot._id !== botId))
           toast.success("Bot deleted successfully")
         } else {
@@ -204,7 +203,6 @@ export default function DashboardPage() {
     )
   }
 
-  // Calculate dashboard stats
   const totalBots = userBots.length
   const approvedBots = userBots.filter(bot => bot.status === "approved").length
   const pendingBots = userBots.filter(bot => bot.status === "pending").length
@@ -215,7 +213,6 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80 py-8 px-4">
       <div className="container mx-auto max-w-6xl">
-        {/* Dashboard Header */}
         <div className="relative mb-8 rounded-2xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-sky-500/10"></div>
           <div className="absolute inset-0 bg-grid-light opacity-10"></div>
@@ -242,7 +239,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-          {/* Sidebar */}
+            {/* Sidebar */}
           <div className="col-span-12 md:col-span-3">
             <div className="space-y-6">
               {/* User Profile Card */}
@@ -272,7 +269,6 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
               
-              {/* Navigation */}
               <Card className="border-border/40 shadow-sm">
                 <CardContent className="p-3">
                   <div className="space-y-1">
@@ -312,8 +308,7 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
               
-              {/* Quick Stats */}
-              <Card className="border-border/40 shadow-sm">
+                <Card className="border-border/40 shadow-sm">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium flex items-center">
                     <Activity className="h-4 w-4 mr-2 text-primary" />
@@ -353,16 +348,13 @@ export default function DashboardPage() {
             </div>
           </div>
           
-          {/* Main Content */}
           <div className="col-span-12 md:col-span-9">
-            {/* Overview Tab */}
             {activeTab === "overview" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Stats Overview */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
                     <CardContent className="p-6">
@@ -450,9 +442,7 @@ export default function DashboardPage() {
                   </Card>
                 </div>
                 
-                {/* Recent Activity & Featured Bots */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Recent Activity */}
                   <Card className="lg:col-span-2 border-border/40 shadow-sm">
                     <CardHeader className="pb-2 flex flex-row items-center justify-between">
                       <CardTitle className="text-lg font-medium flex items-center">
@@ -526,7 +516,6 @@ export default function DashboardPage() {
                     </CardContent>
                   </Card>
                   
-                  {/* Featured Bots */}
                   <Card className="border-border/40 shadow-sm">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-lg font-medium flex items-center">
@@ -577,7 +566,6 @@ export default function DashboardPage() {
               </motion.div>
             )}
 
-            {/* My Bots Tab */}
             {activeTab === "my-bots" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -717,7 +705,6 @@ export default function DashboardPage() {
               </motion.div>
             )}
 
-            {/* Analytics Tab */}
             {activeTab === "analytics" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -753,7 +740,6 @@ export default function DashboardPage() {
               </motion.div>
             )}
 
-            {/* Account Settings Tab */}
             {activeTab === "settings" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

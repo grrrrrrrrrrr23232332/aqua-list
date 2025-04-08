@@ -11,10 +11,8 @@ async function getSiteStats() {
   try {
     const { db } = await connectToDatabase()
     
-    // Get total number of approved bots
     const botsCount = await db.collection("bots").countDocuments({ status: "approved" })
     
-    // Get total number of users
     const usersCount = await db.collection("users").countDocuments()
     
     return {
@@ -33,14 +31,12 @@ async function getSiteStats() {
 export async function SiteFooter() {
   const { botsCount, usersCount } = await getSiteStats()
   
-  // Format the numbers (e.g., 1500 -> 1.5k+)
   const formattedBotsCount = formatNumber(botsCount) + "+ Bots Listed"
   const formattedUsersCount = formatNumber(usersCount) + "+ Users"
   
   return (
     <footer className="border-t bg-gradient-to-b from-background/50 to-muted/30 backdrop-blur-sm">
       <div className="container py-12 md:py-16">
-        {/* Top Section with Logo and Newsletter */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2 mb-4">
@@ -96,7 +92,6 @@ export async function SiteFooter() {
         
         <Separator className="mb-12 opacity-30" />
         
-        {/* Main Footer Links */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="space-y-4">
             <h3 className="font-medium text-lg flex items-center">
@@ -225,7 +220,6 @@ export async function SiteFooter() {
           </div>
         </div>
         
-        {/* Social Links */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 p-6 rounded-xl bg-gradient-to-r from-emerald-500/5 to-sky-500/5 border border-border/40">
           <div>
             <h3 className="font-medium text-lg mb-2">Connect With Us</h3>
@@ -237,11 +231,6 @@ export async function SiteFooter() {
                 <Github className="h-5 w-5 text-emerald-500" />
               </a>
             </Button>
- {    /*       <Button variant="outline" size="icon" className="rounded-full border-sky-500/20 hover:bg-sky-500/10 hover:border-sky-500/30" asChild>
-              <a href="https://twitter.com/aqualist" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <Twitter className="h-5 w-5 text-sky-500" />
-              </a>
-            </Button> */}
             <Button variant="outline" size="icon" className="rounded-full border-purple-500/20 hover:bg-purple-500/10 hover:border-purple-500/30" asChild>
               <a href="https://discord.gg/BQrPPR8xWq" target="_blank" rel="noopener noreferrer" aria-label="Discord">
                 <MessageSquare className="h-5 w-5 text-purple-500" />
@@ -255,7 +244,6 @@ export async function SiteFooter() {
           </div>
         </div>
         
-        {/* Bottom Section */}
         <div className="border-t border-border/40 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground order-2 md:order-1">
             © {new Date().getFullYear()} AquaList. All rights reserved.

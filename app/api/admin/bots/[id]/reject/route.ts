@@ -5,7 +5,6 @@ import { connectToDatabase } from "@/lib/mongodb"
 import { UserRole } from "@/lib/models/user"
 import { sendDiscordNotification } from "@/lib/discord-api"
 
-// POST /api/admin/bots/[id]/reject - Reject a bot
 export async function POST(request: Request, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
@@ -16,14 +15,12 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
     const { db } = await connectToDatabase()
 
-    // Get user to check roles
     const user = await db.collection("users").findOne({ discordId: session.user.discordId })
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Check if user has admin, bot_reviewer, or founder role
     const hasAccess =
       user.roles &&
       (user.roles.includes(UserRole.ADMIN) ||
@@ -34,14 +31,12 @@ export async function POST(request: Request, { params }: { params: { id: string 
       return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 })
     }
 
-    // Get rejection reason from request body
     const { reason, deleteBot } = await request.json()
 
     if (!reason || reason.trim() === "") {
       return NextResponse.json({ error: "Rejection reason is required" }, { status: 400 })
     }
 
-    // Find the bot by clientId instead of ObjectId
     const bot = await db.collection("bots").findOne({
       clientId: params.id,
     })
@@ -51,11 +46,11 @@ export async function POST(request: Request, { params }: { params: { id: string 
     }
 
     if (deleteBot) {
-      // Delete the bot from the database
+         
       await db.collection("bots").deleteOne({ clientId: params.id })
     } else {
-      // Update bot status
-      await db.collection("bots").updateOne(
+     
+        await db.collection("bots").updateOne(
         { clientId: params.id },
         {
           $set: {
@@ -68,7 +63,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
       )
     }
 
-    // Send notification to Discord bot
+    
     try {
       await sendDiscordNotification({
         type: "bot_rejected",
@@ -80,7 +75,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
       })
     } catch (error) {
       console.error("Failed to send Discord notification:", error)
-      // Continue anyway, this shouldn't fail the rejection
+     
     }
 
     return NextResponse.json({

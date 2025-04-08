@@ -67,8 +67,7 @@ export default function PendingBots() {
           description: "Bot has been approved",
           variant: "success",
         })
-        // Remove the bot from the list
-        setPendingBots(pendingBots.filter((bot) => bot._id !== botId))
+            setPendingBots(pendingBots.filter((bot) => bot._id !== botId))
         if (selectedBot === botId) {
           setSelectedBot(pendingBots.find(bot => bot._id !== botId)?._id || null)
         }
@@ -120,7 +119,6 @@ export default function PendingBots() {
           description: "Bot has been rejected",
           variant: "success",
         })
-        // Remove the bot from the list
         setPendingBots(pendingBots.filter((bot) => bot._id !== botId))
         if (selectedBot === botId) {
           setSelectedBot(pendingBots.find(bot => bot._id !== botId)?._id || null)
@@ -214,7 +212,7 @@ export default function PendingBots() {
         </CardHeader>
         <CardContent className="p-0">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x">
-            {/* Bot List Sidebar */}
+          
             <div className="md:col-span-1 border-r">
               <ScrollArea className="h-[600px]">
                 <div className="px-4 py-2 bg-muted/50">
@@ -254,7 +252,6 @@ export default function PendingBots() {
               </ScrollArea>
             </div>
             
-            {/* Bot Details */}
             <div className="md:col-span-2 lg:col-span-3">
               {selectedBotData && (
                 <Tabs defaultValue="details" className="w-full">

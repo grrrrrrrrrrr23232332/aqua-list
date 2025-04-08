@@ -56,7 +56,6 @@ export default function ProfilePage() {
       fetchUserProfile()
     }
     
-    // Check if the current user is the profile owner
     if (status === "authenticated" && session?.user) {
       setIsOwner((session.user as any).discordId === discordId)
     }
@@ -65,7 +64,6 @@ export default function ProfilePage() {
   const fetchUserProfile = async () => {
     setIsLoading(true)
     try {
-      // Fetch user profile
       const profileResponse = await fetch(`/api/users/${discordId}`)
       if (!profileResponse.ok) {
         throw new Error("Failed to fetch user profile")
@@ -73,7 +71,6 @@ export default function ProfilePage() {
       const profileData = await profileResponse.json()
       setProfile(profileData.user)
 
-      // Fetch user's bots
       const botsResponse = await fetch(`/api/users/${discordId}/bots/public`)
       if (botsResponse.ok) {
         const botsData = await botsResponse.json()
@@ -117,23 +114,19 @@ export default function ProfilePage() {
     )
   }
 
-  // Check if user has any social links
   const hasSocialLinks = profile.website || profile.github || profile.twitter || profile.linkedin
 
-  // Format date
   const memberSince = new Date(profile.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
 
-  // Calculate days since joined
   const daysSinceJoined = Math.floor((Date.now() - new Date(profile.createdAt).getTime()) / (1000 * 60 * 60 * 24))
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80 py-12 px-4">
       <div className="container mx-auto max-w-6xl">
-        {/* Profile Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,13 +134,11 @@ export default function ProfilePage() {
           className="mb-12"
         >
           <div className="relative rounded-2xl overflow-hidden mb-8">
-            {/* Header Background with Gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-sky-500 opacity-90"></div>
             <div className="absolute inset-0 bg-grid-light opacity-10"></div>
             
             <div className="relative z-10 p-8 md:p-10">
               <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                {/* Avatar with Status Indicator */}
                 <div className="relative">
                   <div className="relative">
                     <Avatar className="h-28 w-28 md:h-32 md:w-32 border-4 border-white/20 shadow-xl">
@@ -160,7 +151,6 @@ export default function ProfilePage() {
                       </AvatarFallback>
                     </Avatar>
                     
-                    {/* Online Status Indicator */}
                     <div className="absolute bottom-2 right-2 h-5 w-5 rounded-full bg-emerald-500 border-2 border-white"></div>
                   </div>
                   
@@ -171,7 +161,6 @@ export default function ProfilePage() {
                   )}
                 </div>
                 
-                {/* User Info */}
                 <div className="text-center md:text-left flex-1">
                   <h1 className="text-3xl font-bold text-white">{profile.username}</h1>
                   <div className="flex items-center gap-2 mt-2 text-white/80 justify-center md:justify-start">
@@ -179,7 +168,6 @@ export default function ProfilePage() {
                     <span>Joined {memberSince}</span>
                   </div>
                   
-                  {/* Action Buttons */}
                   <div className="mt-4 flex flex-wrap gap-3 justify-center md:justify-start">
                     {isOwner ? (
                       <Button 
@@ -208,9 +196,7 @@ export default function ProfilePage() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column - About & Stats */}
             <div className="lg:col-span-1 space-y-6">
-              {/* About Card */}
               <Card className="border-border/40 shadow-sm bg-card/50 overflow-hidden">
                 <CardHeader className="bg-muted/30 pb-2 border-b border-border/20">
                   <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -246,7 +232,6 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
               
-              {/* Stats Card */}
               <Card className="border-border/40 shadow-sm bg-card/50 overflow-hidden">
                 <CardHeader className="bg-muted/30 pb-2 border-b border-border/20">
                   <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -256,7 +241,6 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="space-y-4">
-                    {/* Member Since */}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
@@ -267,7 +251,6 @@ export default function ProfilePage() {
                       <span className="font-medium">{memberSince}</span>
                     </div>
                     
-                    {/* Days on Platform */}
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-sm text-muted-foreground">Days on Platform</span>
@@ -276,7 +259,6 @@ export default function ProfilePage() {
                       <Progress value={Math.min(100, (daysSinceJoined / 365) * 100)} className="h-2" />
                     </div>
                     
-                    {/* Bots Count */}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center">
@@ -287,7 +269,6 @@ export default function ProfilePage() {
                       <span className="font-medium">{userBots.length}</span>
                     </div>
                     
-                    {/* Admin Status */}
                     {profile.isAdmin && (
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
@@ -302,7 +283,6 @@ export default function ProfilePage() {
                       </div>
                     )}
                     
-                    {/* Account Status */}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
@@ -318,7 +298,6 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
               
-              {/* Social Links Card */}
               {hasSocialLinks && (
                 <Card className="border-border/40 shadow-sm bg-card/50">
                   <CardHeader className="bg-muted/30 pb-2 border-b border-border/20">
@@ -371,7 +350,6 @@ export default function ProfilePage() {
               )}
             </div>
             
-            {/* Right Column - Bots */}
             <div className="lg:col-span-2">
               <Card className="border-border/40 shadow-sm bg-card/50 overflow-hidden h-full">
                 <CardHeader className="bg-muted/30 pb-2 border-b border-border/20">
@@ -472,11 +450,9 @@ export default function ProfilePage() {
   )
 }
 
-// Helper function to ensure URLs have http/https
 function ensureHttps(url: string): string {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     return `https://${url}`;
   }
   return url;
 }
-

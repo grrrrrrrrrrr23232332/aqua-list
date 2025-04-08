@@ -1,4 +1,3 @@
-// Discord Bot for AquaList - Bot List Website
 import {
   Client,
   GatewayIntentBits,
@@ -27,7 +26,6 @@ import express, { Request, Response } from "express";
 import { MongoClient, Db, ObjectId, Filter } from "mongodb";
 import config from "./config";
 
-// Define interfaces for bot data
 interface Bot {
   _id: ObjectId;
   clientId: string;
@@ -62,7 +60,6 @@ interface NotificationPayload {
   voteCount?: number;
 }
 
-// Initialize Discord client
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -71,31 +68,25 @@ const client = new Client({
   ],
 });
 
-// Initialize Express server
 const app = express();
 app.use(express.json());
 
-// MongoDB connection
 const mongoClient = new MongoClient(config.mongodb.uri);
 let db: Db;
 let logChannel: TextChannel | null = null;
 let webhookClient: WebhookClient | null = null;
 
-// Connect to MongoDB
 async function connectToMongo(): Promise<void> {
   try {
     await mongoClient.connect();
     console.log("Connected to MongoDB");
     db = mongoClient.db("AquaList");
-
-    // Update server counts for all bots periodically
-    setInterval(updateAllBotServerCounts, 1000 * 60 * 60); // Every hour
+    setInterval(updateAllBotServerCounts, 1000 * 60 * 60);
   } catch (error) {
     console.error("MongoDB connection error:", error);
   }
 }
 
-// Update server counts for all bots
 async function updateAllBotServerCounts(): Promise<void> {
   try {
     const bots = await db
@@ -107,7 +98,6 @@ async function updateAllBotServerCounts(): Promise<void> {
 
     for (const bot of bots) {
       try {
-        // Get bot's guild count using Discord API
         const botGuilds = await client.rest
           .get(`/applications/${bot.clientId}/guilds`)
           .catch((err) => {
@@ -122,7 +112,6 @@ async function updateAllBotServerCounts(): Promise<void> {
 
         const serverCount = (botGuilds as any[]).length;
 
-        // Update in database
         await db.collection<Bot>("bots").updateOne(
           { _id: bot._id },
           {
@@ -145,10 +134,8 @@ async function updateAllBotServerCounts(): Promise<void> {
   }
 }
 
-// Send message to log channel
 async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, botData: Partial<Bot> = {}): Promise<void> {
   try {
-    // Check if log channel is available
     if (!logChannel) {
       const guild = client.guilds.cache.get(config.discord.serverId);
       if (!guild) {
@@ -167,7 +154,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       }
     }
 
-    // Add description if available
     if (botData.description) {
       embed.addFields({
         name: "Description",
@@ -179,7 +165,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       });
     }
 
-    // Add links if available
     const links: string[] = [];
     if (botData.website) links.push(`[Website](${botData.website})`);
     if (botData.supportServer)
@@ -194,7 +179,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       });
     }
 
-    // Add tags if available
     if (botData.tags && botData.tags.length > 0) {
       embed.addFields({
         name: "Tags",
@@ -203,7 +187,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       });
     }
 
-    // Create button component if botId is provided
     const components: any[] = [];
     if (botId) {
       const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -223,9 +206,7 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       components.push(row);
     }
 
-    // Add thumbnail to embed if it's a bot notification
     if (embed.data.title?.includes("Bot") || embed.data.title?.includes("Vote")) {
-      // Try to get the bot's avatar from Discord API
       try {
         const botInfo = await client.rest
           .get(`/applications/${botId}`)
@@ -244,7 +225,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       }
     }
 
-    // Add emoji to title based on notification type
     if (embed.data.title?.includes("New Bot Submission")) {
       embed.setTitle(`📥 ${embed.data.title}`);
     } else if (embed.data.title?.includes("New Vote")) {
@@ -255,7 +235,6 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
       embed.setTitle(`❌ ${embed.data.title}`);
     }
 
-    // Send the message with embeds and components
     try {
       await logChannel.send({
         embeds: [embed],
@@ -264,13 +243,11 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
     } catch (error) {
       console.error("Error sending embed message:", error);
 
-      // Fallback: Try sending without components
       try {
         await logChannel.send({ embeds: [embed] });
       } catch (fallbackError) {
         console.error("Error sending embed without components:", fallbackError);
 
-        // Last resort: Send as plain text
         const plainTextContent = `**${embed.data.title}**\n\n`;
         let fieldsText = "";
 
@@ -288,11 +265,9 @@ async function sendLogMessage(embed: EmbedBuilder, botId: string | null = null, 
   }
 }
 
-// Discord bot ready event
 client.once("ready", async () => {
   console.log(`Logged in as ${client.user?.tag}`);
 
-  // Set bot status and activity
   try {
     await client.user?.setPresence({
       status: 'online',
@@ -306,7 +281,6 @@ client.once("ready", async () => {
     console.error("Error setting bot presence:", error);
   }
 
-  // Get the log channel
   try {
     const guild = client.guilds.cache.get(config.discord.serverId);
     if (guild) {
@@ -327,7 +301,6 @@ client.once("ready", async () => {
     console.error("Error finding log channel:", error);
   }
 
-  // Register slash commands
   try {
     const commands = [
       new SlashCommandBuilder()
@@ -384,15 +357,12 @@ client.once("ready", async () => {
   connectToMongo();
 });
 
-// Handle API requests from website
 app.post("/api/discord-bot/notify", async (req: Request, res: Response) => {
   try {
-    // Parse the request body
     const payload = await req.json() as NotificationPayload;
     const { type, botId, botName, userId, username } = payload;
 
     if (type === "bot_submit") {
-      // Bot submission notification
       const embed = new EmbedBuilder()
         .setTitle("New Bot Submission")
         .addFields(
@@ -405,7 +375,6 @@ app.post("/api/discord-bot/notify", async (req: Request, res: Response) => {
 
       await sendLogMessage(embed, botId);
     } else if (type === "bot_approve") {
-      // Bot approval notification
       const embed = new EmbedBuilder()
         .setTitle("Bot Approved")
         .addFields(
@@ -418,7 +387,6 @@ app.post("/api/discord-bot/notify", async (req: Request, res: Response) => {
 
       await sendLogMessage(embed, botId);
     } else if (type === "bot_reject") {
-      // Bot rejection notification
       const embed = new EmbedBuilder()
         .setTitle("Bot Rejected")
         .addFields(
@@ -436,7 +404,6 @@ app.post("/api/discord-bot/notify", async (req: Request, res: Response) => {
 
       await sendLogMessage(embed, botId);
     } else if (type === "bot_vote") {
-      // Bot vote notification
       const embed = new EmbedBuilder()
         .setTitle("New Bot Vote")
         .addFields(
@@ -458,7 +425,6 @@ app.post("/api/discord-bot/notify", async (req: Request, res: Response) => {
   }
 });
 
-// Handle slash commands
 client.on("interactionCreate", async (interaction: Interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
@@ -540,7 +506,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
         });
       }
 
-      // Add bot avatar if available
       if (bot.avatar) {
         embed.setThumbnail(bot.avatar);
       }
@@ -562,7 +527,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
       await commandInteraction.editReply({ embeds: [embed], components: [row] });
     } else if (commandName === "approve") {
-      // Check if user has admin permissions
       if (
         !commandInteraction.memberPermissions?.has(PermissionFlagsBits.Administrator)
       ) {
@@ -593,7 +557,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
         return;
       }
 
-      // Update bot status
       await db
         .collection<Bot>("bots")
         .updateOne(
@@ -609,7 +572,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
       await commandInteraction.editReply({ embeds: [embed] });
 
-      // Send notification
       const notificationEmbed = new EmbedBuilder()
         .setTitle("Bot Approved")
         .addFields(
@@ -626,7 +588,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
       await sendLogMessage(notificationEmbed, botId, bot);
     } else if (commandName === "reject") {
-      // Check if user has admin permissions
       if (
         !commandInteraction.memberPermissions?.has(PermissionFlagsBits.Administrator)
       ) {
@@ -664,7 +625,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
         return;
       }
 
-      // Update bot status
       await db.collection<Bot>("bots").updateOne(
         { clientId: botId },
         {
@@ -685,7 +645,6 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
       await commandInteraction.editReply({ embeds: [embed] });
 
-      // Send notification
       const notificationEmbed = new EmbedBuilder()
         .setTitle("Bot Rejected")
         .addFields(
@@ -724,11 +683,9 @@ client.on("interactionCreate", async (interaction: Interaction) => {
   }
 });
 
-// Start Express server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Discord bot API server running on port ${PORT}`);
 });
 
-// Login to Discord
 client.login(config.discord.botToken); 

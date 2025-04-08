@@ -6,7 +6,6 @@ import { sendDiscordNotification } from "@/lib/discord-api"
 import { NextRequest } from "next/server"
 import { ObjectId } from "mongodb"
 
-// GET /api/bots/[id]/vote - Check if user can vote
 export async function GET(
   request: Request, 
   { params }: { params: { id: string } }
@@ -16,26 +15,21 @@ export async function GET(
     const { db } = await connectToDatabase()
     const userId = session?.user?.id
 
-    // Get the bot ID from params
     const botId = params.id
 
-    // Find the bot
     const bot = await db.collection("bots").findOne({ clientId: botId })
     if (!bot) {
       return NextResponse.json({ canVote: false, error: "Bot not found" })
     }
 
-    // If not logged in, they need to login to vote
     if (!session) {
       return NextResponse.json({ canVote: false, error: "Login required" })
     }
 
-    // Check if user is the bot owner
     if (bot.ownerId === userId) {
       return NextResponse.json({ canVote: false, error: "Cannot vote for your own bot" })
     }
 
-    // Check if user has voted in the last 12 hours
     const existingVote = await db.collection("votes").findOne({
       botId,
       userId,
@@ -58,7 +52,6 @@ export async function GET(
   }
 }
 
-// POST /api/bots/[id]/vote - Submit a vote
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -75,7 +68,6 @@ export async function POST(
 
     const { db } = await connectToDatabase()
 
-    // Check if bot exists
     const bot = await db.collection("bots").findOne({
       clientId: params.id,
     })
@@ -87,7 +79,6 @@ export async function POST(
       )
     }
 
-    // Check if user has already voted within the cooldown period
     const existingVote = await db.collection("votes").findOne({
       botId: params.id,
       userId: session.user.discordId,
@@ -106,25 +97,21 @@ export async function POST(
       )
     }
 
-    // Record the vote
     await db.collection("votes").insertOne({
       botId: params.id,
       userId: session.user.discordId,
       timestamp: new Date(),
     })
 
-    // Increment the bot's vote count
     await db.collection("bots").updateOne(
       { clientId: params.id },
       { $inc: { votes: 1 } }
     )
 
-    // Get updated vote count
     const updatedBot = await db.collection("bots").findOne({
       clientId: params.id,
     })
 
-    // Send Discord notification
     await sendDiscordNotification({
       type: "vote",
       botId: params.id,
@@ -136,7 +123,7 @@ export async function POST(
     return NextResponse.json(
       { 
         message: "Vote recorded successfully",
-        totalVotes: updatedBot.votes || 1
+        totalVotes: updatedBot?.votes || 1
       },
       { status: 200 }
     )
@@ -148,4 +135,3 @@ export async function POST(
     )
   }
 }
-

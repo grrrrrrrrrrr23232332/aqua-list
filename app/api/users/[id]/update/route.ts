@@ -21,7 +21,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Only allow users to update their own profile
     if ((session.user as any).discordId !== id) {
       return NextResponse.json({ 
         error: "You can only update your own profile" 
@@ -31,7 +30,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { db } = await connectToDatabase();
     const data = await request.json();
 
-    // Validate and sanitize input
     const sanitizedData: {
       bio?: string;
       website?: string;
@@ -43,14 +41,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       updatedAt: new Date()
     };
 
-    // Only add non-null values
     if (data.bio?.trim()) sanitizedData.bio = data.bio.trim();
     if (data.website?.trim()) sanitizedData.website = data.website.trim();
     if (data.github?.trim()) sanitizedData.github = data.github.trim();
     if (data.linkedin?.trim()) sanitizedData.linkedin = data.linkedin.trim();
     if (data.twitter?.trim()) sanitizedData.twitter = data.twitter.trim();
 
-    // Update user profile
     const result = await db.collection("users").updateOne(
       { discordId: id },
       { 
@@ -62,7 +58,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: "Failed to update profile" }, { status: 400 });
     }
 
-    // Get updated user data (excluding sensitive info)
     const updatedUser = await db.collection("users").findOne(
       { discordId: id },
       {
@@ -97,7 +92,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-// GET method to fetch profile data
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     const id = await params.id;

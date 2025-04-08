@@ -16,7 +16,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Check if user has admin access
+  
     const { db } = await connectToDatabase()
     const user = await db.collection("users").findOne({ discordId: session.user.discordId })
 
@@ -28,15 +28,15 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
-    // Get the bot - safely handle the ID
+  
     const botId = await params.id
     let query = {}
     
-    // Check if the ID is a valid ObjectId
+ 
     if (/^[0-9a-fA-F]{24}$/.test(botId)) {
       query = { _id: new ObjectId(botId) }
     } else {
-      // If not a valid ObjectId, treat as clientId
+      
       query = { clientId: botId }
     }
     
@@ -46,16 +46,16 @@ export async function POST(
       return NextResponse.json({ error: "Bot not found" }, { status: 404 })
     }
 
-    // Toggle featured status
+    
     const featured = !bot.featured
 
-    // Update the bot
+    
     await db.collection("bots").updateOne(
       { _id: bot._id },
       { $set: { featured, updatedAt: new Date() } }
     )
 
-    // Check if there's a redirect URL in the query parameters
+   
     const url = new URL(request.url)
     const redirectUrl = url.searchParams.get('redirect')
     

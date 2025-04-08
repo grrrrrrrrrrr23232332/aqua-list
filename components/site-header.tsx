@@ -30,7 +30,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
-  // Check if user has admin access
+ 
   const hasAdminAccess = session?.user && 
     Array.isArray((session.user as any).roles) && 
     (session.user as any).roles.some((role: string) =>
@@ -81,7 +81,7 @@ export function SiteHeader() {
         : "bg-transparent"
     )}>
       <div className="container flex h-16 items-center">
-        {/* Desktop Logo and Navigation */}
+      
         <div className="mr-4 hidden md:flex items-center">
           <Link href="/" className="mr-8 flex items-center space-x-2 group">
             <div className="relative w-8 h-8 rounded-lg overflow-hidden transition-transform group-hover:scale-110">
@@ -120,7 +120,7 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        {/* Mobile Menu */}
+        
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="mr-2 md:hidden">
@@ -257,7 +257,6 @@ export function SiteHeader() {
           </SheetContent>
         </Sheet>
 
-        {/* Mobile Logo */}
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <Link href="/" className="mr-6 flex items-center space-x-2 md:hidden">
@@ -275,11 +274,11 @@ export function SiteHeader() {
             </Link>
           </div>
           
-          {/* Right Side Actions */}
+         
           <div className="flex items-center gap-2">
     
             
-            {/* Admin Button */}
+       
             {hasAdminAccess && (
               <TooltipProvider>
                 <Tooltip>
@@ -297,10 +296,10 @@ export function SiteHeader() {
               </TooltipProvider>
             )}
             
-            {/* Theme Toggle */}
+            
             <ModeToggle />
             
-            {/* User Menu */}
+            
             {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

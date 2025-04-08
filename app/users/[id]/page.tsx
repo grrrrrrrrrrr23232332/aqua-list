@@ -12,9 +12,7 @@ interface PageProps {
 
 async function getUserDiscordId(id: string) {
   try {
-    // Check if the ID is a valid MongoDB ObjectId
     if (!ObjectId.isValid(id)) {
-      // If not a valid ObjectId, assume it's already a Discord ID
       return id
     }
 
@@ -38,15 +36,12 @@ export default async function UserProfileRedirect({ params }: PageProps) {
   const discordId = await getUserDiscordId(params.id)
 
   if (!discordId) {
-    // Handle user not found
     return redirect("/users")
   }
 
-  // Redirect to the Discord ID-based profile page
   return redirect(`/users/discord/${discordId}`)
 }
 
-// Generate metadata for user profile pages
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const user = await getUserById(params.id)
   
@@ -87,4 +82,3 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     },
   }
 }
-

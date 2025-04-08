@@ -21,17 +21,14 @@ export function BotSearch({ className }: BotSearchProps) {
     e.preventDefault()
     
     startTransition(() => {
-      // Create new URLSearchParams
       const params = new URLSearchParams(searchParams)
       
-      // Update or remove the search query
       if (searchQuery) {
         params.set("q", searchQuery)
       } else {
         params.delete("q")
       }
       
-      // Navigate to the new URL
       router.push(`/bots?${params.toString()}`)
     })
   }

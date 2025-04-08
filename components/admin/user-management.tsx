@@ -20,7 +20,6 @@ export default function UserManagement() {
   const [savingUserId, setSavingUserId] = useState<string | null>(null)
   const { toast } = useToast()
 
-  // Track role changes for each user
   const [userRoles, setUserRoles] = useState<{ [key: string]: string[] }>({})
 
   useEffect(() => {
@@ -45,7 +44,6 @@ export default function UserManagement() {
         const data = await response.json()
         setUsers(data.users)
 
-        // Initialize user roles state
         const initialRoles: { [key: string]: string[] } = {}
         data.users.forEach((user: any) => {
           initialRoles[user._id] = user.roles || []
@@ -107,7 +105,6 @@ export default function UserManagement() {
           description: "User roles updated successfully",
         })
 
-        // Update the users list with new roles
         setUsers(
           users.map((user) => {
             if (user._id === userId) {

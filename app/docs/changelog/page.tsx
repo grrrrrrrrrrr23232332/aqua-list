@@ -24,7 +24,6 @@ export default function ApiChangelogPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar */}
         <div className="md:col-span-1 space-y-6">
           <Card className="border-border/40 shadow-sm sticky top-20">
             <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-b border-border/40">
@@ -57,7 +56,6 @@ export default function ApiChangelogPage() {
           </Card>
         </div>
 
-        {/* Main Content */}
         <div className="md:col-span-3 space-y-8">
           <Card className="border-border/40 shadow-sm">
             <CardHeader>

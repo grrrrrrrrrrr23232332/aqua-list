@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../../auth/[...nextauth]/route"
 import { connectToDatabase } from "@/lib/mongodb"
 
-// GET /api/users/me - Get the current user
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
@@ -14,12 +13,10 @@ export async function GET() {
 
     const { db } = await connectToDatabase()
 
-    // Find user by Discord ID
     let user = await db.collection("users").findOne({
       discordId: session.user.discordId,
     })
 
-    // If user doesn't exist, create a new one
     if (!user) {
       const newUser = {
         username: session.user.name,
@@ -43,7 +40,6 @@ export async function GET() {
       }
     }
 
-    // Remove sensitive information
     const { password, ...safeUser } = user
 
     return NextResponse.json(safeUser)
@@ -53,7 +49,6 @@ export async function GET() {
   }
 }
 
-// PUT /api/users/me - Update the current user
 export async function PUT(request: Request) {
   try {
     const session = await getServerSession(authOptions)
@@ -65,7 +60,6 @@ export async function PUT(request: Request) {
     const { db } = await connectToDatabase()
     const data = await request.json()
 
-    // Only allow updating certain fields
     const updateData: any = {
       bio: data.bio,
       website: data.website,
@@ -85,4 +79,3 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Failed to update profile" }, { status: 500 })
   }
 }
-

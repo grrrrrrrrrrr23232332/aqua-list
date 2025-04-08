@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-// Read NextAuth configuration from config.json
+
 let nextAuthSecret: string
 let nextAuthUrl: string
 

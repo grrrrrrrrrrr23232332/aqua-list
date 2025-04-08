@@ -15,13 +15,9 @@ export async function GET(
 
     const { db } = await connectToDatabase()
     
-    console.log("Fetching profile for user:", params.id) // Debug log
-
     const user = await db.collection("users").findOne(
       { discordId: params.id }
     )
-
-    console.log("Found user:", user) // Debug log
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
@@ -44,10 +40,6 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    console.log("Session user:", session.user) // Debug log
-    console.log("Params ID:", params.id) // Debug log
-
-    // Verify user is updating their own profile
     if ((session.user as any).id !== params.id) {
       return NextResponse.json({ 
         error: "Forbidden - You can only update your own profile" 
@@ -57,9 +49,6 @@ export async function PUT(
     const { db } = await connectToDatabase()
     const data = await request.json()
 
-    console.log("Received data:", data) // Debug log
-
-    // Update user profile
     const result = await db.collection("users").updateOne(
       { discordId: params.id },
       { 
@@ -74,8 +63,6 @@ export async function PUT(
       },
       { upsert: true }
     )
-
-    console.log("Update result:", result) // Debug log
 
     if (!result.acknowledged) {
       return NextResponse.json({ error: "Failed to update profile" }, { status: 400 })

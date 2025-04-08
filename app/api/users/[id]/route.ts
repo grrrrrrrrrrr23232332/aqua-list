@@ -4,19 +4,16 @@ import { authOptions } from "../../auth/[...nextauth]/route"
 import { connectToDatabase } from "@/lib/mongodb"
 import { ObjectId } from "mongodb"
 
-// GET /api/users/[id] - Get a specific user
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Await params before accessing its properties
     const paramsResolved = await params
     const id = paramsResolved.id
 
     const { db } = await connectToDatabase()
 
-    // Query by discordId instead of _id
     const user = await db.collection("users").findOne({
       discordId: id
     })
@@ -32,7 +29,6 @@ export async function GET(
   }
 }
 
-// PUT /api/users/[id] - Update a user
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
@@ -43,7 +39,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
     const { db } = await connectToDatabase()
 
-    // Find the user
     const user = await db.collection("users").findOne({
       _id: new ObjectId(params.id),
     })
@@ -52,14 +47,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Check if the user is updating their own profile or is an admin
     if (user.discordId !== session.user.discordId && !session.user.isAdmin) {
       return NextResponse.json({ error: "You don't have permission to update this user" }, { status: 403 })
     }
 
     const data = await request.json()
 
-    // Only allow updating certain fields
     const updateData: any = {
       bio: data.bio,
       website: data.website,
@@ -69,7 +62,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       updatedAt: new Date(),
     }
 
-    // If admin, allow updating more fields
     if (session.user.isAdmin) {
       if (data.isAdmin !== undefined) {
         updateData.isAdmin = data.isAdmin
@@ -86,4 +78,3 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 })
   }
 }
-

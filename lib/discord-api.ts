@@ -1,14 +1,12 @@
 import fs from "fs"
 import path from "path"
 
-// Load config directly
 const configPath = path.join(process.cwd(), "config.json")
 const configData = JSON.parse(fs.readFileSync(configPath, "utf8"))
 const DISCORD_BOT_TOKEN = configData.discord.botToken
 const DISCORD_USER_TOKEN = configData.discord.userToken || process.env.DISCORD_TOKEN
 const DISCORD_SUPER_PROPERTIES = configData.discord.superProperties || process.env.DISCORD_SUPER_PROPERTIES || ''
 
-// Function to get server count from Discord API using user token
 export async function getServerCount(clientId: string): Promise<number | null> {
   try {
     const DISCORD_USER_TOKEN = process.env.DISCORD_TOKEN;
@@ -54,7 +52,6 @@ export async function getServerCount(clientId: string): Promise<number | null> {
   }
 }
 
-// Function to get user information from Discord API
 export async function getUserInfo(userId: string) {
   try {
     if (!DISCORD_BOT_TOKEN) {
@@ -65,7 +62,7 @@ export async function getUserInfo(userId: string) {
       headers: {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }
     })
 
     if (!response.ok) {
@@ -90,7 +87,6 @@ export async function getUserInfo(userId: string) {
   }
 }
 
-// Function to get bot information from Discord API
 export async function getBotInfo(botId: string) {
   try {
     if (!DISCORD_BOT_TOKEN) {
@@ -101,7 +97,7 @@ export async function getBotInfo(botId: string) {
       headers: {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }
     })
 
     if (!response.ok) {
@@ -118,7 +114,7 @@ export async function getBotInfo(botId: string) {
       avatarUrl: data.avatar 
         ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=256`
         : `https://cdn.discordapp.com/embed/avatars/${parseInt(data.discriminator) % 5}.png`,
-      verified: Boolean(data.public_flags & 0x10000), // Check if bot is verified
+      verified: Boolean(data.public_flags & 0x10000),
     }
   } catch (error) {
     console.error("Error fetching bot info from Discord:", error)
@@ -126,7 +122,6 @@ export async function getBotInfo(botId: string) {
   }
 }
 
-// Function to get user's Discord server roles
 export async function getUserDiscordRoles(userId: string, guildId: string) {
   try {
     if (!DISCORD_BOT_TOKEN) {
@@ -134,12 +129,11 @@ export async function getUserDiscordRoles(userId: string, guildId: string) {
       return null
     }
 
-    // First check if user is in the guild
     const response = await fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${userId}`, {
       headers: {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }
     })
 
     if (!response.ok) {
@@ -157,7 +151,6 @@ export async function getUserDiscordRoles(userId: string, guildId: string) {
   }
 }
 
-// Function to send notification to Discord webhook
 export async function sendDiscordNotification(data: {
   type: string
   botId?: string
@@ -176,13 +169,11 @@ export async function sendDiscordNotification(data: {
     const webhookUrl = `https://discord.com/api/v10/channels/${configData.discord.logChannelId}/messages`
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://yourdomain.com'
     
-    // Fetch user info if userId is provided
     let userInfo = null
     if (data.userId) {
       userInfo = await getUserInfo(data.userId)
     }
 
-    // Fetch bot info if botId is provided
     let botInfo = null
     if (data.botId) {
       botInfo = await getBotInfo(data.botId)
@@ -344,11 +335,6 @@ export async function sendDiscordNotification(data: {
   }
 }
 
-/**
- * Checks if a bot is online by querying the Discord API
- * @param botId The Discord client ID of the bot
- * @returns Boolean indicating if the bot is online
- */
 export async function getBotStatus(botId: string): Promise<boolean> {
   try {
     if (!process.env.DISCORD_BOT_TOKEN) {
@@ -369,9 +355,6 @@ export async function getBotStatus(botId: string): Promise<boolean> {
 
     const data = await response.json();
     
-    // Check if the bot has the "online" status
-    // Discord status codes: 
-    // "online" = 0, "idle" = 1, "dnd" = 2, "offline" = 3
     return data.status !== undefined && data.status !== 3;
   } catch (error) {
     console.error("Error checking bot status:", error);
@@ -379,7 +362,6 @@ export async function getBotStatus(botId: string): Promise<boolean> {
   }
 }
 
-// You can also add a more detailed status function that returns the actual status
 export async function getBotDetailedStatus(botId: string): Promise<string> {
   try {
     if (!process.env.DISCORD_BOT_TOKEN) {
@@ -400,7 +382,6 @@ export async function getBotDetailedStatus(botId: string): Promise<string> {
 
     const data = await response.json();
     
-    // Map Discord status codes to readable strings
     const statusMap: Record<number, string> = {
       0: "online",
       1: "idle",
@@ -428,11 +409,6 @@ export async function fetchBotData(botId: string) {
   }
 }
 
-/**
- * Checks if a bot is verified by querying the Discord API
- * @param botId The Discord client ID of the bot
- * @returns Boolean indicating if the bot is verified
- */
 export async function isBotVerified(botId: string): Promise<boolean> {
   try {
     if (!DISCORD_BOT_TOKEN) {
@@ -453,12 +429,9 @@ export async function isBotVerified(botId: string): Promise<boolean> {
 
     const data = await response.json();
     
-    // Check if the bot is verified
-    // Discord bots have a 'public_flags' field where bit 16 (0x10000) indicates verification
     return data.public_flags !== undefined && (data.public_flags & 0x10000) !== 0;
   } catch (error) {
     console.error("Error checking bot verification status:", error);
     return false;
   }
 }
-

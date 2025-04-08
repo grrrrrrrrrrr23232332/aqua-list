@@ -2,7 +2,6 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../../auth/[...nextauth]/route"
 
-// POST /api/discord-bot/notify - Send notification to Discord bot
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions)
@@ -13,7 +12,6 @@ export async function POST(request: Request) {
 
     const data = await request.json()
 
-    // Forward the notification to the Discord bot
     const response = await fetch(`http://localhost:${process.env.BOT_PORT || 3001}/api/discord-bot/notify`, {
       method: "POST",
       headers: {
@@ -35,4 +33,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to send notification to Discord bot" }, { status: 500 })
   }
 }
-

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 
 export default function BotList() {
-  // This would typically come from an API or database
+    
   const bots = [
     {
       id: "1",

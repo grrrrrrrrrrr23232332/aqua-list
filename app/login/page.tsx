@@ -11,7 +11,6 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     setIsLoading(true)
-    // The callbackUrl should be added to your Discord Developer Portal's redirect URIs
     const callbackUrl = `${window.location.origin}/api/auth/callback/discord`
     await signIn("discord", { callbackUrl: "/dashboard", redirect: true })
   }

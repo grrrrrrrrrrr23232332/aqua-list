@@ -18,7 +18,6 @@ import { SortSelector } from "@/components/sort-selector"
 import { BotTabs } from "@/components/bot-tabs"
 import { Metadata } from 'next'
 
-// Available bot categories
 const categories = [
   { id: "moderation", label: "Moderation", icon: "🛡️" },
   { id: "music", label: "Music", icon: "🎵" },
@@ -63,13 +62,11 @@ export default async function BotsPage({
     featured: tabValue === "featured"
   })
 
-  // Get featured bots
   const featuredBots = bots.filter(bot => bot.featured)
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
       <div className="container mx-auto max-w-7xl py-8 px-4">
-        {/* Hero Section */}
         <div className="relative rounded-2xl overflow-hidden mb-12">
           <div className="absolute inset-0 bg-gradient-primary"></div>
           <div className="absolute inset-0 bg-grid-light opacity-10"></div>
@@ -87,10 +84,8 @@ export default async function BotsPage({
               Find the perfect bots to enhance your Discord server experience
             </p>
             
-            {/* Search Component */}
             <BotSearch className="max-w-xl w-full" />
             
-            {/* Quick Category Pills */}
             <div className="flex flex-wrap justify-center gap-2 mt-8">
               {categories.slice(0, 6).map((category) => (
                 <a 
@@ -113,16 +108,13 @@ export default async function BotsPage({
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar Filters */}
           <div className="hidden lg:block space-y-6">
             <Card className="border-none shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-4">
                 <CardTitle className="text-xl">Filters</CardTitle>
               </div>
               <CardContent className="p-6 space-y-6">
-                {/* Sort Options */}
                 <div className="space-y-2">
                   <h3 className="text-sm font-medium flex items-center">
                     <SlidersHorizontal className="h-4 w-4 mr-2 text-primary" />
@@ -135,7 +127,6 @@ export default async function BotsPage({
                 
                 <Separator />
                 
-                {/* Categories */}
                 <div id="categories" className="space-y-3">
                   <h3 className="text-sm font-medium flex items-center">
                     <Filter className="h-4 w-4 mr-2 text-primary" />
@@ -149,7 +140,6 @@ export default async function BotsPage({
               </CardContent>
             </Card>
             
-            {/* Quick Stats */}
             <Card className="border-none shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-secondary/10 to-accent/10 p-4">
                 <CardTitle className="text-xl">Stats</CardTitle>
@@ -171,7 +161,6 @@ export default async function BotsPage({
             </Card>
           </div>
           
-          {/* Mobile Filters */}
           <div className="lg:hidden mb-6">
             <div className="flex gap-2">
               <Sheet>
@@ -187,7 +176,6 @@ export default async function BotsPage({
                   </SheetHeader>
                   <ScrollArea className="h-[calc(100vh-8rem)] pr-4">
                     <div className="py-6 space-y-6">
-                      {/* Sort Options */}
                       <div className="space-y-2">
                         <h3 className="text-sm font-medium flex items-center">
                           <SlidersHorizontal className="h-4 w-4 mr-2 text-primary" />
@@ -200,7 +188,6 @@ export default async function BotsPage({
                       
                       <Separator />
                       
-                      {/* Categories */}
                       <div className="space-y-3">
                         <h3 className="text-sm font-medium flex items-center">
                           <Filter className="h-4 w-4 mr-2 text-primary" />
@@ -220,9 +207,7 @@ export default async function BotsPage({
             </div>
           </div>
           
-          {/* Bot Listings */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Tabs */}
             <Card className="border-none shadow-lg overflow-hidden">
               <BotTabs defaultValue={tabValue}>
                 <TabsContent value="all" className="m-0 p-6">
@@ -320,7 +305,6 @@ export default async function BotsPage({
   )
 }
 
-// Skeleton loader for bot list
 function BotListSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -367,7 +351,6 @@ async function getBots({
   try {
     const { db } = await connectToDatabase()
 
-    // Build query
     const filter: any = { status: "approved" }
     
     if (query) {
@@ -385,7 +368,6 @@ async function getBots({
       filter.featured = true
     }
 
-    // Build sort
     let sortOptions: any = {}
     switch (sort) {
       case "popular":
@@ -402,7 +384,6 @@ async function getBots({
         sortOptions = { createdAt: -1 }
     }
 
-    // Execute query
     const bots = await db.collection("bots")
       .find(filter)
       .sort(sortOptions)
@@ -430,4 +411,3 @@ export const metadata: Metadata = {
     description: 'Browse our curated collection of Discord bots. Find the perfect bot to enhance your server with moderation, music, games, and more.',
   },
 }
-

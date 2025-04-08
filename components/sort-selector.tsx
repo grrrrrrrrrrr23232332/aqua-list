@@ -14,13 +14,10 @@ export function SortSelector({ defaultValue }: SortSelectorProps) {
   const searchParams = useSearchParams()
   
   const handleSortChange = (value: string) => {
-    // Create new URLSearchParams
     const params = new URLSearchParams(searchParams)
     
-    // Update sort parameter
     params.set("sort", value)
     
-    // Navigate to the new URL
     router.push(`/bots?${params.toString()}`)
   }
   

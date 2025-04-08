@@ -19,7 +19,6 @@ import Image from "next/image"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-// Available bot tags
 const availableTags = [
   "moderation", "music", "economy", "utility", "fun", "games", "social", 
   "leveling", "developer", "ai", "chat", "roleplay", "notification", 
@@ -63,7 +62,6 @@ export default function EditBotPage({ params }: { params: { id: string } }) {
     }
   }, [status, botId])
 
-  // Update progress based on form completion
   useEffect(() => {
     let completedFields = 0;
     const requiredFields = ["prefix", "description", "longDescription"];
@@ -95,7 +93,6 @@ export default function EditBotPage({ params }: { params: { id: string } }) {
       
       const botData = await response.json()
       
-      // Check if user is the owner (no admin exception)
       const userId = (session?.user as any)?.id || (session?.user as any)?.discordId || session?.user?.name
       console.log("Current user ID:", userId)
       console.log("Bot owner ID:", botData.ownerId)
@@ -208,7 +205,6 @@ export default function EditBotPage({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80 py-10">
       <div className="container max-w-6xl">
-        {/* Header */}
         <div className="relative mb-8 rounded-2xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-sky-500 opacity-90"></div>
           <div className="absolute inset-0 bg-grid-light opacity-10"></div>
@@ -230,7 +226,6 @@ export default function EditBotPage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Preview Card */}
           <div className="lg:col-span-1 space-y-6">
             <Card className="border-border/50 overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50">
@@ -325,7 +320,6 @@ export default function EditBotPage({ params }: { params: { id: string } }) {
             </Card>
           </div>
 
-          {/* Edit Form */}
           <Card className="lg:col-span-2 border-border/50">
             <CardHeader className="pb-4 border-b border-border/50">
               <div className="flex items-center justify-between">

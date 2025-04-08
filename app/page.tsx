@@ -13,7 +13,6 @@ import { formatDistanceToNow } from "date-fns"
 import { formatNumber } from "@/lib/utils"
 import { redirect } from "next/navigation"
 
-// Define a Bot interface to ensure type safety
 interface Bot {
   _id: any
   clientId: string
@@ -55,7 +54,6 @@ async function getFeaturedBots() {
 async function getNewestBots() {
   const { db } = await connectToDatabase()
   
-  // Calculate date 5 days ago
   const fiveDaysAgo = new Date()
   fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5)
   
@@ -86,24 +84,20 @@ export default async function Home({
 }: {
   searchParams?: { query?: string }
 }) {
-  // Handle search form submission
   if (searchParams?.query) {
     redirect(`/search?query=${encodeURIComponent(searchParams.query)}`)
   }
   
-  // Fetch bots for each category
   const featuredBots = await getFeaturedBots()
   const newestBots = await getNewestBots()
   const mostVotedBots = await getMostVotedBots()
 
-  // Get total counts
   const { db } = await connectToDatabase()
   const botCount = await db.collection("bots").countDocuments({ status: "approved" })
   const userCount = await db.collection("users").countDocuments()
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Asymmetric Design */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
         
@@ -234,7 +228,6 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Tabs Section */}
       <section className="py-16 relative">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -329,7 +322,6 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Most Voted Bots Section */}
       <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="flex justify-between items-center mb-8">
@@ -366,7 +358,6 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Categories Section - Redesigned */}
       <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="text-center mb-12">
@@ -419,7 +410,6 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Call to Action - Redesigned */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
         
@@ -490,4 +480,3 @@ export default async function Home({
     </div>
   )
 }
-

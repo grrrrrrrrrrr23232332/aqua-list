@@ -9,7 +9,6 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Check if user is admin
     const session = await getServerSession(authOptions)
     if (!session || !(session.user as any).isAdmin) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -18,7 +17,6 @@ export async function POST(
     const { db } = await connectToDatabase()
     const botId = params.id
     
-    // Get current featured status
     const bot = await db.collection("bots").findOne({ 
       _id: new ObjectId(botId) 
     })
@@ -26,10 +24,8 @@ export async function POST(
       return NextResponse.json({ error: "Bot not found" }, { status: 404 })
     }
     
-    // Toggle featured status
     const featured = !bot.featured
     
-    // Update bot
     await db.collection("bots").updateOne(
       { _id: new ObjectId(botId) },
       { $set: { featured, updatedAt: new Date() } }

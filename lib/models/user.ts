@@ -12,8 +12,8 @@ export interface User {
   twitter?: string
   discordId: string
   isAdmin: boolean
-  roles: string[] // Array of role IDs
-  discordRoles?: string[] // Array of Discord server role IDs
+  roles: string[]
+  discordRoles?: string[]
   createdAt: Date
   updatedAt: Date
 }
@@ -28,7 +28,6 @@ export enum UserRole {
   SUPPORT = "support",
 }
 
-// Map roles to display names, colors, and icons
 export const RoleConfig = {
   [UserRole.USER]: {
     name: "User",

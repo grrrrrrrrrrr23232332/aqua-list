@@ -25,7 +25,6 @@ export default function ApiDocsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
-        {/* Hero Section */}
         <div className="bg-gradient-to-b from-emerald-500/20 to-sky-500/20 border-b border-border/40">
           <div className="container py-16 px-4">
             <div className="max-w-3xl mx-auto text-center">
@@ -57,7 +56,6 @@ export default function ApiDocsPage() {
           </div>
         </div>
 
-        {/* API Reference */}
         <div className="container py-16 px-4" id="api-reference">
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-col gap-2 mb-8">
@@ -71,7 +69,6 @@ export default function ApiDocsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {/* Sidebar */}
               <div className="md:col-span-1 space-y-6">
                 <div className="rounded-lg border border-border/40 overflow-hidden">
                   <div className="bg-muted/50 px-4 py-3 font-medium">
@@ -130,7 +127,6 @@ export default function ApiDocsPage() {
                 </div>
               </div>
 
-              {/* Main Content */}
               <div className="md:col-span-3">
                 <Tabs defaultValue="bots" className="space-y-8">
                   <TabsList className="grid w-full grid-cols-3 p-1 bg-muted/50 rounded-lg">

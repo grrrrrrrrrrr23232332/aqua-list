@@ -58,7 +58,6 @@ async function getUser(discordId: string): Promise<UserData | null> {
     return null
   }
 
-  // Get user's bots
   const bots = await db
     .collection("bots")
     .find({
@@ -108,15 +107,12 @@ export default async function UserProfilePage({ params }: PageProps) {
     )
   }
 
-  // Calculate days since joining
   const daysSinceJoining = Math.floor((Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24))
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80 py-8 px-4">
       <div className="container mx-auto max-w-6xl">
-        {/* Profile Header */}
         <div className="relative mb-8 rounded-xl overflow-hidden border border-border/40 shadow-sm">
-          {/* Header Background with Grid Pattern */}
           <div className="h-48 bg-gradient-to-r from-emerald-500/20 to-sky-500/20 relative">
             <div className="absolute inset-0" style={{ 
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
@@ -124,7 +120,6 @@ export default async function UserProfilePage({ params }: PageProps) {
             }}></div>
           </div>
           
-          {/* User Info */}
           <div className="flex flex-col md:flex-row gap-6 px-6 pb-6 -mt-16">
             <div className="flex-shrink-0 relative">
               <Avatar className="h-32 w-32 border-4 border-background shadow-md">
@@ -134,7 +129,6 @@ export default async function UserProfilePage({ params }: PageProps) {
                 </AvatarFallback>
               </Avatar>
               
-              {/* Online Status Indicator */}
               <div className="absolute bottom-3 right-3 h-5 w-5 rounded-full bg-green-500 border-2 border-background"></div>
             </div>
             
@@ -186,7 +180,6 @@ export default async function UserProfilePage({ params }: PageProps) {
                 </div>
               </div>
               
-              {/* Social Links */}
               {(user.website || user.github || user.linkedin || user.twitter) && (
                 <div className="flex flex-wrap gap-3 mt-6">
                   {user.website && (
@@ -243,7 +236,6 @@ export default async function UserProfilePage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* User Content */}
         <Tabs defaultValue="bots" className="w-full">
           <TabsList className="mb-6 p-1 bg-muted/50 border border-border/40 rounded-lg">
             <TabsTrigger value="bots" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-sky-500 data-[state=active]:text-white rounded-md">
@@ -476,7 +468,6 @@ export default async function UserProfilePage({ params }: PageProps) {
   )
 }
 
-// Helper function to ensure URLs have http/https
 function ensureHttps(url: string): string {
   if (!url) return "";
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -484,4 +475,3 @@ function ensureHttps(url: string): string {
   }
   return url;
 }
-

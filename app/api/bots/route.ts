@@ -5,7 +5,6 @@ import { connectToDatabase } from "@/lib/mongodb"
 import { getUserInfo } from "@/lib/discord-api"
 import { sendDiscordNotification } from "@/lib/discord-api"
 
-// GET /api/bots - Get all bots
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -17,7 +16,6 @@ export async function GET(request: Request) {
 
     const { db } = await connectToDatabase()
 
-    // Build query
     const filter: any = { status: "approved" }
     if (query) {
       filter.$or = [{ name: { $regex: query, $options: "i" } }, { description: { $regex: query, $options: "i" } }]
@@ -26,7 +24,6 @@ export async function GET(request: Request) {
       filter.tags = tag
     }
 
-    // Build sort
     let sortOptions: any = {}
     switch (sort) {
       case "popular":
@@ -40,7 +37,6 @@ export async function GET(request: Request) {
         sortOptions = { createdAt: -1 }
     }
 
-    // Execute query
     const bots = await db
       .collection("bots")
       .find(filter)
@@ -86,7 +82,6 @@ async function fetchGalaxyBotData(botId: string) {
     
     const data = await response.json();
     
-    // Store in cache
     galaxyApiCache.set(botId, {
       data,
       timestamp: Date.now()
@@ -114,7 +109,6 @@ async function fetchBotData(botId: string) {
 
 export async function POST(request: Request) {
   try {
-    // Check authentication
     const session = await getServerSession(authOptions)
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -123,12 +117,10 @@ export async function POST(request: Request) {
     const { db } = await connectToDatabase()
     const data = await request.json()
 
-    // Validate required fields
     if (!data.clientId || !data.description || !data.longDescription || !data.prefix) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Create bot document
     const bot = {
       ...data,
       ownerId: (session.user as any).id,
@@ -148,4 +140,3 @@ export async function POST(request: Request) {
     )
   }
 }
-

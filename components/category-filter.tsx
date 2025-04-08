@@ -19,17 +19,14 @@ export function CategoryFilter({ categories, selectedCategory }: CategoryFilterP
   const searchParams = useSearchParams()
   
   const handleCategoryClick = (categoryId: string) => {
-    // Create new URLSearchParams
     const params = new URLSearchParams(searchParams)
     
-    // Toggle category
     if (selectedCategory === categoryId) {
       params.delete("category")
     } else {
       params.set("category", categoryId)
     }
     
-    // Navigate to the new URL
     router.push(`/bots?${params.toString()}`)
   }
   

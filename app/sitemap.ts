@@ -3,23 +3,20 @@ import { connectToDatabase } from '@/lib/mongodb'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aqualist.com'
-  const fixedDate = new Date('2025-04-02') // Use April 2, 2025 as the fixed date
+  const fixedDate = new Date('2025-04-02')
   
-  // Get all bots
   const { db } = await connectToDatabase()
   const bots = await db.collection('bots')
     .find({ status: 'approved' })
     .project({ clientId: 1, updatedAt: 1 })
     .toArray()
   
-  // Get all users
   const users = await db.collection('users')
     .find({})
     .project({ discordId: 1, updatedAt: 1 })
-    .limit(1000) // Limit to 1000 users
+    .limit(1000)
     .toArray()
   
-  // Static routes
   const routes = [
     {
       url: `${baseUrl}`,
@@ -71,7 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
   
-  // Add bot routes with the fixed date
   const botRoutes = bots.map((bot) => ({
     url: `${baseUrl}/bots/${bot.clientId}`,
     lastModified: fixedDate,
@@ -79,7 +75,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
   
-  // Add user routes with the fixed date
   const userRoutes = users.map((user) => ({
     url: `${baseUrl}/users/${user.discordId}`,
     lastModified: fixedDate,

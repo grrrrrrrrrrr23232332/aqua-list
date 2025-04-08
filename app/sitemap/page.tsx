@@ -14,13 +14,11 @@ export const metadata: Metadata = {
 export default async function SitemapPage() {
   const { db } = await connectToDatabase()
   
-  // Get categories
   const categories = await db.collection("categories")
     .find({})
     .sort({ name: 1 })
     .toArray()
   
-  // Get top bots
   const topBots = await db.collection("bots")
     .find({ status: "approved" })
     .sort({ votes: -1 })

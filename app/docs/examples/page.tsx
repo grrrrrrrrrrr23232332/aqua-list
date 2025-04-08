@@ -100,8 +100,7 @@ export default function CodeExamplesPage() {
                 <TabsContent value="javascript" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`// Using fetch to get a list of bots
-async function listBots() {
+                      <code>{`async function listBots() {
   try {
     const response = await fetch('https://aqua-list.vercel.app/api/bots');
     const data = await response.json();
@@ -109,7 +108,6 @@ async function listBots() {
     console.log(\`Found \${data.bots.length} bots\`);
     console.log(\`Total pages: \${data.totalPages}\`);
     
-    // Process the bots
     data.bots.forEach(bot => {
       console.log(\`\${bot.name}: \${bot.description}\`);
     });
@@ -120,15 +118,13 @@ async function listBots() {
   }
 }
 
-// Call the function
 listBots();`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`// Using fetch to get a list of bots
-async function listBots() {
+                      onClick={() => copyToClipboard(`async function listBots() {
   try {
     const response = await fetch('https://aqua-list.vercel.app/api/bots');
     const data = await response.json();
@@ -136,7 +132,6 @@ async function listBots() {
     console.log(\`Found \${data.bots.length} bots\`);
     console.log(\`Total pages: \${data.totalPages}\`);
     
-    // Process the bots
     data.bots.forEach(bot => {
       console.log(\`\${bot.name}: \${bot.description}\`);
     });
@@ -147,7 +142,6 @@ async function listBots() {
   }
 }
 
-// Call the function
 listBots();`, "js-list-bots")}
                     >
                       {copied === "js-list-bots" ? (
@@ -161,8 +155,7 @@ listBots();`, "js-list-bots")}
                 <TabsContent value="python" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`# Using requests to get a list of bots
-import requests
+                      <code>{`import requests
 
 def list_bots():
     try:
@@ -172,7 +165,6 @@ def list_bots():
         print(f"Found {len(data['bots'])} bots")
         print(f"Total pages: {data['totalPages']}")
         
-        # Process the bots
         for bot in data['bots']:
             print(f"{bot['name']}: {bot['description']}")
         
@@ -180,15 +172,13 @@ def list_bots():
     except Exception as e:
         print(f"Error fetching bots: {e}")
 
-# Call the function
 list_bots()`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`# Using requests to get a list of bots
-import requests
+                      onClick={() => copyToClipboard(`import requests
 
 def list_bots():
     try:
@@ -198,7 +188,6 @@ def list_bots():
         print(f"Found {len(data['bots'])} bots")
         print(f"Total pages: {data['totalPages']}")
         
-        # Process the bots
         for bot in data['bots']:
             print(f"{bot['name']}: {bot['description']}")
         
@@ -206,7 +195,6 @@ def list_bots():
     except Exception as e:
         print(f"Error fetching bots: {e}")
 
-# Call the function
 list_bots()`, "python-list-bots")}
                     >
                       {copied === "python-list-bots" ? (
@@ -220,26 +208,20 @@ list_bots()`, "python-list-bots")}
                 <TabsContent value="curl" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`# Simple GET request to list bots
-curl -X GET https://aqua-list.vercel.app/api/bots
+                      <code>{`curl -X GET https://aqua-list.vercel.app/api/bots
 
-# With pagination parameters
 curl -X GET "https://aqua-list.vercel.app/api/bots?page=2&limit=50"
 
-# With sorting and filtering
 curl -X GET "https://aqua-list.vercel.app/api/bots?sort=popular&tag=utility"`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`# Simple GET request to list bots
-curl -X GET https://aqua-list.vercel.app/api/bots
+                      onClick={() => copyToClipboard(`curl -X GET https://aqua-list.vercel.app/api/bots
 
-# With pagination parameters
 curl -X GET "https://aqua-list.vercel.app/api/bots?page=2&limit=50"
 
-# With sorting and filtering
 curl -X GET "https://aqua-list.vercel.app/api/bots?sort=popular&tag=utility"`, "curl-list-bots")}
                     >
                       {copied === "curl-list-bots" ? (
@@ -274,8 +256,7 @@ curl -X GET "https://aqua-list.vercel.app/api/bots?sort=popular&tag=utility"`, "
                 <TabsContent value="javascript" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`// Using fetch to get a specific bot
-async function getBot(clientId) {
+                      <code>{`async function getBot(clientId) {
   try {
     const response = await fetch(\`https://aqua-list.vercel.app/api/bots/\${clientId}\`);
     
@@ -297,15 +278,13 @@ async function getBot(clientId) {
   }
 }
 
-// Call the function with a bot's client ID
 getBot('123456789012345678');`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`// Using fetch to get a specific bot
-async function getBot(clientId) {
+                      onClick={() => copyToClipboard(`async function getBot(clientId) {
   try {
     const response = await fetch(\`https://aqua-list.vercel.app/api/bots/\${clientId}\`);
     
@@ -327,7 +306,6 @@ async function getBot(clientId) {
   }
 }
 
-// Call the function with a bot's client ID
 getBot('123456789012345678');`, "js-get-bot")}
                     >
                       {copied === "js-get-bot" ? (
@@ -341,13 +319,12 @@ getBot('123456789012345678');`, "js-get-bot")}
                 <TabsContent value="python" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`# Using requests to get a specific bot
-import requests
+                      <code>{`import requests
 
 def get_bot(client_id):
     try:
         response = requests.get(f'https://aqua-list.vercel.app/api/bots/{client_id}')
-        response.raise_for_status()  # Raise exception for 4XX/5XX responses
+        response.raise_for_status()
         
         bot = response.json()
         
@@ -361,20 +338,18 @@ def get_bot(client_id):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching bot details: {e}")
 
-# Call the function with a bot's client ID
 get_bot('123456789012345678')`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`# Using requests to get a specific bot
-import requests
+                      onClick={() => copyToClipboard(`import requests
 
 def get_bot(client_id):
     try:
         response = requests.get(f'https://aqua-list.vercel.app/api/bots/{client_id}')
-        response.raise_for_status()  # Raise exception for 4XX/5XX responses
+        response.raise_for_status()
         
         bot = response.json()
         
@@ -388,7 +363,6 @@ def get_bot(client_id):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching bot details: {e}")
 
-# Call the function with a bot's client ID
 get_bot('123456789012345678')`, "python-get-bot")}
                     >
                       {copied === "python-get-bot" ? (
@@ -402,15 +376,13 @@ get_bot('123456789012345678')`, "python-get-bot")}
                 <TabsContent value="curl" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`# Get a specific bot by client ID
-curl -X GET https://aqua-list.vercel.app/api/bots/123456789012345678`}</code>
+                      <code>{`curl -X GET https://aqua-list.vercel.app/api/bots/123456789012345678`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`# Get a specific bot by client ID
-curl -X GET https://aqua-list.vercel.app/api/bots/123456789012345678`, "curl-get-bot")}
+                      onClick={() => copyToClipboard(`curl -X GET https://aqua-list.vercel.app/api/bots/123456789012345678`, "curl-get-bot")}
                     >
                       {copied === "curl-get-bot" ? (
                         <Check className="h-4 w-4" />
@@ -444,8 +416,7 @@ curl -X GET https://aqua-list.vercel.app/api/bots/123456789012345678`, "curl-get
                 <TabsContent value="javascript" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`// Using fetch to get a user's bots
-async function getUserBots(userId) {
+                      <code>{`async function getUserBots(userId) {
   try {
     const response = await fetch(\`https://aqua-list.vercel.app/api/users/\${userId}/bots\`);
     
@@ -457,7 +428,6 @@ async function getUserBots(userId) {
     
     console.log(\`User has \${data.bots.length} bots\`);
     
-    // Process the bots
     data.bots.forEach(bot => {
       console.log(\`\${bot.name}: \${bot.description}\`);
     });
@@ -468,15 +438,13 @@ async function getUserBots(userId) {
   }
 }
 
-// Call the function with a user ID
 getUserBots('123456789012345678');`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`// Using fetch to get a user's bots
-async function getUserBots(userId) {
+                      onClick={() => copyToClipboard(`async function getUserBots(userId) {
   try {
     const response = await fetch(\`https://aqua-list.vercel.app/api/users/\${userId}/bots\`);
     
@@ -488,7 +456,6 @@ async function getUserBots(userId) {
     
     console.log(\`User has \${data.bots.length} bots\`);
     
-    // Process the bots
     data.bots.forEach(bot => {
       console.log(\`\${bot.name}: \${bot.description}\`);
     });
@@ -499,7 +466,6 @@ async function getUserBots(userId) {
   }
 }
 
-// Call the function with a user ID
 getUserBots('123456789012345678');`, "js-user-bots")}
                     >
                       {copied === "js-user-bots" ? (
@@ -513,8 +479,7 @@ getUserBots('123456789012345678');`, "js-user-bots")}
                 <TabsContent value="python" className="bg-muted rounded-md p-4">
                   <div className="relative">
                     <pre className="font-mono text-sm overflow-x-auto">
-                      <code>{`# Using requests to get a user's bots
-import requests
+                      <code>{`import requests
 
 def get_user_bots(user_id):
     try:
@@ -525,7 +490,6 @@ def get_user_bots(user_id):
         
         print(f"User has {len(data['bots'])} bots")
         
-        # Process the bots
         for bot in data['bots']:
             print(f"{bot['name']}: {bot['description']}")
         
@@ -533,15 +497,13 @@ def get_user_bots(user_id):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching user bots: {e}")
 
-# Call the function with a user ID
 get_user_bots('123456789012345678')`}</code>
                     </pre>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => copyToClipboard(`# Using requests to get a user's bots
-import requests
+                      onClick={() => copyToClipboard(`import requests
 
 def get_user_bots(user_id):
     try:

@@ -19,7 +19,6 @@ export function RefreshButton({ botId }: RefreshButtonProps) {
         fetch(`/api/bots/${botId}/refresh`, {
           method: 'POST',
         }).then(async response => {
-          // Check if response is JSON
           const contentType = response.headers.get("content-type");
           if (!contentType || !contentType.includes("application/json")) {
             throw new Error("Server returned an invalid response. Please try again later.");
@@ -35,7 +34,6 @@ export function RefreshButton({ botId }: RefreshButtonProps) {
         {
           loading: 'Refreshing bot information...',
           success: (data) => {
-            // Show detailed success message
             const updatedInfo = [];
             
             if (data.updates?.name) {
@@ -50,10 +48,8 @@ export function RefreshButton({ botId }: RefreshButtonProps) {
               updatedInfo.push('Avatar updated');
             }
             
-            // Refresh the page to show updated information
             setTimeout(() => window.location.reload(), 2000);
             
-            // Return a detailed success message
             return updatedInfo.length > 0
               ? `Bot information updated: ${updatedInfo.join(', ')}`
               : 'Bot information refreshed successfully';

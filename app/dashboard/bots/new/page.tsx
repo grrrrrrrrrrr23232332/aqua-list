@@ -27,7 +27,6 @@ export default function NewBotPage() {
     const formData = new FormData(event.currentTarget)
 
     try {
-      // In a real app, you would call your API to create a new bot
       const response = await fetch("/api/bots", {
         method: "POST",
         body: formData,
@@ -37,8 +36,7 @@ export default function NewBotPage() {
         const data = await response.json()
         throw new Error(data.message || "Failed to create bot")
       }
-
-      // Redirect to the bot management page
+      
       router.push("/dashboard/bots")
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred while creating the bot")

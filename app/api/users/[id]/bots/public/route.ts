@@ -6,13 +6,11 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Await params before accessing its properties
     const paramsResolved = await params
     const id = paramsResolved.id
 
     const { db } = await connectToDatabase()
     
-    // Fetch approved bots owned by the user
     const bots = await db
       .collection("bots")
       .find({ 

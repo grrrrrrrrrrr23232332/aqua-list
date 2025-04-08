@@ -16,7 +16,7 @@ export default function TrendingBotsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto max-w-7xl py-12 px-4">
-        {/* Header */}
+       
         <div className="mb-12 text-center">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <TrendingUp className="h-4 w-4 mr-2" />
@@ -30,7 +30,7 @@ export default function TrendingBotsPage() {
           </p>
         </div>
 
-        {/* Timeframe Tabs */}
+       
         <Card className="mb-8 border-border/40 shadow-sm">
           <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-b border-border/40">
             <CardTitle className="text-xl">Trending Timeframes</CardTitle>
@@ -50,7 +50,7 @@ export default function TrendingBotsPage() {
           </CardContent>
         </Card>
 
-        {/* Coming Soon Message */}
+        
         <Card className="border-border/40 shadow-sm overflow-hidden bg-gradient-to-br from-amber-500/5 to-amber-500/20">
           <CardContent className="p-8 flex flex-col items-center text-center">
             <div className="bg-amber-500/10 p-4 rounded-full mb-4">

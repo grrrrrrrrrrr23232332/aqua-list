@@ -15,7 +15,6 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 
-// Available bot tags
 const availableTags = [
   "moderation", "music", "economy", "utility", "fun", "games", "social", 
   "leveling", "developer", "ai", "chat", "roleplay", "notification", 
@@ -47,7 +46,6 @@ export default function SubmitBotPage() {
     }
   }, [status])
 
-  // Update progress based on form completion
   useEffect(() => {
     let completedFields = 0;
     const requiredFields = ["clientId", "prefix", "shortDescription", "longDescription"];
@@ -97,7 +95,7 @@ export default function SubmitBotPage() {
         },
         body: JSON.stringify({
           clientId: formData.clientId,
-          name: "", // Will be fetched from Discord API
+          name: "",
           description: formData.shortDescription,
           longDescription: formData.longDescription,
           prefix: formData.prefix,
@@ -413,4 +411,3 @@ export default function SubmitBotPage() {
     </div>
   )
 }
-

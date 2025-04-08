@@ -4,7 +4,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { connectToDatabase } from "@/lib/mongodb"
 import { UserRole } from "@/lib/models/user"
 import { ObjectId } from "mongodb"
-import { redirect } from "next/navigation"
 
 async function isAdminOrFounder(userId: string) {
   const { db } = await connectToDatabase()
@@ -13,7 +12,6 @@ async function isAdminOrFounder(userId: string) {
 
   if (!user) return false
 
-  // Check if user has admin or founder role
   const hasAccess =
     user.roles &&
     (user.roles.includes(UserRole.ADMIN) ||
@@ -52,7 +50,6 @@ export async function POST(
       )
     }
 
-    // Check if there's a redirect URL in the query params
     const url = new URL(request.url)
     const redirectUrl = url.searchParams.get("redirect")
 

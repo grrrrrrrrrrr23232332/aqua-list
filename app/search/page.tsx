@@ -14,11 +14,9 @@ export const metadata: Metadata = {
 async function searchBots(query: string) {
   const { db } = await connectToDatabase()
   
-  
   const searchPattern = new RegExp(query, "i")
   
   try {
-    // Use a simpler query approach without TEXT operator
     return await db.collection("bots")
       .find({
         status: "approved",
@@ -33,7 +31,6 @@ async function searchBots(query: string) {
       .toArray()
   } catch (error) {
     console.error("Search error:", error)
-    // Return empty array on error
     return []
   }
 }
@@ -45,7 +42,6 @@ export default async function SearchPage({
 }) {
   const query = searchParams?.query || ""
   
-  // Get search results
   const results = query ? await searchBots(query) : []
   
   return (

@@ -14,13 +14,10 @@ export function BotTabs({ defaultValue, children }: BotTabsProps) {
   const searchParams = useSearchParams()
   
   const handleTabChange = (value: string) => {
-    // Create new URLSearchParams
     const params = new URLSearchParams(searchParams)
     
-    // Update tab parameter
     params.set("tab", value)
     
-    // Navigate to the new URL
     router.push(`/bots?${params.toString()}`)
   }
   

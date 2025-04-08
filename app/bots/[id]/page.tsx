@@ -31,7 +31,6 @@ interface PageProps {
   }
 }
 
-// Define a Bot interface to ensure type safety
 interface Bot {
   _id: any
   clientId: string
@@ -70,7 +69,6 @@ interface Bot {
 async function getBot(id: string): Promise<Bot | null> {
   const { db } = await connectToDatabase()
 
-  // Find the bot by clientId
   const bot = await db.collection("bots").findOne({
     clientId: id,
   })
@@ -79,17 +77,14 @@ async function getBot(id: string): Promise<Bot | null> {
     return null
   }
 
-  // Get owner information
   const owner = await db.collection("users").findOne({
     discordId: bot.ownerId,
   })
 
-  // Get server count from Discord API
   let serverCount = bot.servers || 0
   try {
     const count = await getServerCount(bot.clientId)
     if (count && count > 0) {
-      // Update the server count in the database
       await db.collection("bots").updateOne({ clientId: id }, { $set: { servers: count } })
       serverCount = count
     }
@@ -97,7 +92,6 @@ async function getBot(id: string): Promise<Bot | null> {
     console.error("Failed to get server count:", error)
   }
 
-  // Create a properly typed bot object
   const typedBot: Bot = {
     _id: bot._id,
     clientId: bot.clientId,
@@ -142,7 +136,6 @@ async function getBot(id: string): Promise<Bot | null> {
   return typedBot
 }
 
-// Generate metadata for bot pages
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const bot = await getBotById(params.id)
   
@@ -180,7 +173,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function BotPage({ params }: PageProps) {
-  // Await the params.id to satisfy Next.js requirement
   const id = await Promise.resolve(params.id);
   
   const session = await getServerSession(authOptions)
@@ -192,7 +184,6 @@ export default async function BotPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Hero Section with Gradient Background */}
       <div className="relative mb-12 rounded-2xl overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-sky-500"></div>
         
@@ -270,11 +261,8 @@ export default async function BotPage({ params }: PageProps) {
         </div>
       </div>
       
-      {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column */}
         <div className="lg:col-span-2 space-y-8">
-          {/* About Section */}
           <div className="bg-card rounded-xl p-6 shadow-md border border-border">
             <h2 className="text-2xl font-bold mb-4 text-card-foreground flex items-center">
               <FileText className="w-5 h-5 mr-2 text-primary" /> About
@@ -288,7 +276,6 @@ export default async function BotPage({ params }: PageProps) {
             </div>
           </div>
           
-          {/* Commands Section */}
           {bot.commands && bot.commands.length > 0 && (
             <div className="bg-card rounded-xl p-6 shadow-md border border-border">
               <h2 className="text-2xl font-bold mb-4 text-card-foreground flex items-center">
@@ -314,7 +301,6 @@ export default async function BotPage({ params }: PageProps) {
             </div>
           )}
           
-          {/* Reviews Section */}
           <div className="bg-card rounded-xl p-6 shadow-md border border-border">
             <h2 className="text-2xl font-bold mb-4 text-card-foreground flex items-center">
               <MessageSquare className="w-5 h-5 mr-2 text-primary" /> Reviews
@@ -330,9 +316,7 @@ export default async function BotPage({ params }: PageProps) {
           </div>
         </div>
         
-        {/* Right Column */}
         <div className="space-y-8">
-          {/* Bot Info Card */}
           <div className="bg-card rounded-xl p-6 shadow-md border border-border">
             <h2 className="text-xl font-bold mb-4 text-card-foreground">Bot Information</h2>
             <div className="space-y-4">
@@ -382,7 +366,6 @@ export default async function BotPage({ params }: PageProps) {
             </div>
           </div>
           
-          {/* Vote Card */}
           <div className="bg-gradient-primary rounded-xl p-6 shadow-md text-white">
             <h2 className="text-xl font-bold mb-4">Support This Bot</h2>
             <p className="text-white/80 mb-4 text-sm">
@@ -392,7 +375,7 @@ export default async function BotPage({ params }: PageProps) {
             <VoteButton 
               botId={bot.clientId} 
               botName={bot.name} 
-              initialVotes={bot.votes} 
+              initialVotes={bot.votes || 0} 
             />
             
             <div className="mt-4 text-center text-white/80 text-sm">
@@ -400,13 +383,11 @@ export default async function BotPage({ params }: PageProps) {
             </div>
           </div>
           
-          {/* Share Card */}
           <div className="bg-card rounded-xl p-6 shadow-md border border-border">
             <h2 className="text-xl font-bold mb-4 text-card-foreground">Share</h2>
             <SocialShare botId={bot.clientId} botName={bot.name} />
           </div>
           
-          {/* Report Card */}
           <div className="bg-card rounded-xl p-6 shadow-md border border-border">
             <h2 className="text-xl font-bold mb-4 text-card-foreground">Report</h2>
             <p className="text-sm text-muted-foreground mb-4">
@@ -425,7 +406,6 @@ export default async function BotPage({ params }: PageProps) {
         </div>
       </div>
       
-      {/* Refresh and Edit Buttons - Only visible to bot owner */}
       {session?.user?.discordId === bot.ownerId && (
         <div className="fixed bottom-6 right-6 flex gap-2">
           <RefreshButton botId={id} />
@@ -440,4 +420,3 @@ export default async function BotPage({ params }: PageProps) {
     </div>
   )
 }
-

@@ -21,7 +21,6 @@ async function hasAdminAccess(userId: string) {
 
   if (!user) return false
 
-  // Check if user has admin, bot_reviewer, or founder role
   const hasAccess =
     user.roles &&
     (user.roles.includes(UserRole.ADMIN) ||
@@ -38,7 +37,6 @@ async function isAdminOrFounder(userId: string) {
 
   if (!user) return false
 
-  // Check if user has admin or founder role
   const hasAccess =
     user.roles &&
     (user.roles.includes(UserRole.ADMIN) ||
@@ -289,4 +287,3 @@ function BotAdminCard({ bot, isPending }: { bot: any; isPending: boolean }) {
     </Card>
   )
 }
-

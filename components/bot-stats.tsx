@@ -10,7 +10,7 @@ interface BotStatsProps {
   prefix: string
   shards?: number
   uptime?: number
-  responseTime?: number
+  responseTime?: number 
   tags?: string[]
 }
 
@@ -24,7 +24,6 @@ export function BotStats({
   responseTime = 120,
   tags = []
 }: BotStatsProps) {
-  // Format date - ensure it's a string
   const formattedDate = typeof createdAt === 'string' 
     ? new Date(createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -39,7 +38,6 @@ export function BotStats({
         })
       : 'Unknown date';
   
-  // Calculate time difference in milliseconds
   const getTimeDifference = () => {
     const creationDate = typeof createdAt === 'string'
       ? new Date(createdAt)
@@ -51,7 +49,6 @@ export function BotStats({
     return diffMs;
   };
   
-  // Format time difference as a human-readable string
   const formatTimeDifference = () => {
     const diffMs = getTimeDifference();
     
@@ -79,7 +76,6 @@ export function BotStats({
   
   return (
     <div className="space-y-6">
-      {/* Primary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300 group-hover:shadow-md overflow-hidden">
           <CardContent className="p-6">
@@ -142,7 +138,6 @@ export function BotStats({
         </Card>
       </div>
       
-      {/* Secondary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
           <CardContent className="p-6">

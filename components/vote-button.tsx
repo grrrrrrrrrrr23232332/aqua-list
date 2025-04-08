@@ -49,7 +49,6 @@ export function VoteButton({ botId, botName, initialVotes = 0 }: VoteButtonProps
 
       if (!response.ok) {
         if (data.nextVoteTime) {
-          // Calculate time until next vote
           const nextVoteTime = new Date(data.nextVoteTime)
           const now = new Date()
           const diffHours = Math.floor((nextVoteTime.getTime() - now.getTime()) / (1000 * 60 * 60))
@@ -63,14 +62,11 @@ export function VoteButton({ botId, botName, initialVotes = 0 }: VoteButtonProps
         return
       }
 
-      // Update votes count
       setVotes(data.totalVotes)
       
-      // Show success dialog and confetti
       setShowSuccessDialog(true)
       setShowConfetti(true)
       
-      // Refresh the page to update the UI
       router.refresh()
     } catch (error) {
       toast.error("An error occurred while voting")
@@ -140,7 +136,6 @@ export function VoteButton({ botId, botName, initialVotes = 0 }: VoteButtonProps
               className="w-full sm:w-auto"
               onClick={() => {
                 setShowSuccessDialog(false)
-                // Copy the bot URL to clipboard
                 const botUrl = `${window.location.origin}/bots/${botId}`
                 navigator.clipboard.writeText(botUrl)
                 toast.success("Bot URL copied to clipboard")

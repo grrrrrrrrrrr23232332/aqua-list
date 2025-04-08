@@ -4,7 +4,6 @@ import { authOptions } from "../../auth/[...nextauth]/route"
 import { connectToDatabase } from "@/lib/mongodb"
 import { UserRole } from "@/lib/models/user"
 
-// GET /api/admin/stats - Get admin dashboard statistics
 export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions)
@@ -15,14 +14,12 @@ export async function GET(request: Request) {
 
     const { db } = await connectToDatabase()
 
-    // Get user to check roles
     const user = await db.collection("users").findOne({ discordId: session.user.discordId })
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Check if user has admin, bot_reviewer, or founder role
     const hasAccess =
       user.roles &&
       (user.roles.includes(UserRole.ADMIN) ||
@@ -34,13 +31,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 })
     }
 
-    // Get counts
     const usersCount = await db.collection("users").countDocuments()
     const botsCount = await db.collection("bots").countDocuments({ status: "approved" })
     const pendingBotsCount = await db.collection("bots").countDocuments({ status: "pending" })
     const votesCount = await db.collection("votes").countDocuments()
 
-    // Get bot categories
     const botCategories = await db
       .collection("bots")
       .aggregate([
@@ -53,22 +48,21 @@ export async function GET(request: Request) {
       ])
       .toArray()
 
-    // Get recent activity (simplified example)
     const recentActivity = [
       {
         type: "Bot Approved",
         description: "Bot 'MusicMaster' was approved",
-        timestamp: new Date(Date.now() - 3600000), // 1 hour ago
+        timestamp: new Date(Date.now() - 3600000),
       },
       {
         type: "Bot Submitted",
         description: "New bot 'ModeratorPro' was submitted",
-        timestamp: new Date(Date.now() - 7200000), // 2 hours ago
+        timestamp: new Date(Date.now() - 7200000),
       },
       {
         type: "User Joined",
         description: "New user 'DiscordFan123' joined",
-        timestamp: new Date(Date.now() - 86400000), // 1 day ago
+        timestamp: new Date(Date.now() - 86400000),
       },
     ]
 

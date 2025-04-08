@@ -35,7 +35,6 @@ export default function UsersPage() {
     async function fetchUsers() {
       setLoading(true)
       try {
-        // Fetch users from API route instead of directly using MongoDB
         const params = new URLSearchParams()
         if (searchQuery) params.set("query", searchQuery)
         if (sortOption) params.set("sort", sortOption)
@@ -71,7 +70,6 @@ export default function UsersPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto max-w-7xl py-12 px-4">
-        {/* Header */}
         <div className="mb-12 text-center">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <Users className="h-4 w-4 mr-2" />
@@ -85,7 +83,6 @@ export default function UsersPage() {
           </p>
         </div>
 
-        {/* Search and Filters */}
         <Card className="mb-10 border-border/40 shadow-sm overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-b border-border/40 pb-4">
             <CardTitle className="flex items-center text-xl">
@@ -156,7 +153,6 @@ export default function UsersPage() {
           </CardContent>
         </Card>
 
-        {/* Results */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 py-1 px-3">
@@ -204,7 +200,6 @@ export default function UsersPage() {
           </Tabs>
         </div>
 
-        {/* User Grid/List */}
         <Tabs value={activeTab} className="mb-12">
           <TabsContent value="grid">
             {loading ? (
@@ -360,7 +355,6 @@ export default function UsersPage() {
           </TabsContent>
         </Tabs>
 
-        {/* Featured Developers */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-6">
             <Sparkles className="h-5 w-5 text-amber-500" />
@@ -395,4 +389,3 @@ export default function UsersPage() {
     </div>
   )
 }
-

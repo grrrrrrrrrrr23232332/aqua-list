@@ -12,7 +12,7 @@ async function isAdminOrFounder(userId: string) {
 
   if (!user) return false
 
-  // Check if user has admin or founder role
+  
   const hasAccess =
     user.roles &&
     (user.roles.includes(UserRole.ADMIN) ||
