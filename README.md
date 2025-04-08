@@ -111,7 +111,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - _Initial work_ - [M7mdJs](https://github.com/M7mdJs)
+- **M7mdJs** - _Initial work_ - [M7mdJs](https://github.com/M7mdJs)
 
 ## 🙏 Acknowledgments
 
